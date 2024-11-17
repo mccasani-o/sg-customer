@@ -1,6 +1,7 @@
 package pe.com.nttdata.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import pe.com.nttdata.model.Customer;
@@ -15,4 +16,12 @@ public interface CustomerMapper {
     Customer toCustomer(CustomerRequest customerRequest );
 
     CustomerResponse toCustomerResponse(Customer customer);
+
+
+    @Mapping(target = "clientType", source = "codeType")
+    @Mapping(target = "documentType", source = "documentTypeCode")
+    Customer toCustomerSave(CustomerRequest customerRequest, int codeType, int documentTypeCode);
+
+
 }
+

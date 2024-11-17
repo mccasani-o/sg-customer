@@ -34,7 +34,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Mono<CustomerResponse> getUserById(@PathVariable String id) {
+    public Mono<CustomerResponse> getCustomerById(@PathVariable String id) {
         return this.customerService.findById(id);
 
 

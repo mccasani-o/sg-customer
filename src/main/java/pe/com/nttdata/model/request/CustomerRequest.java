@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class CustomerRequest {
-    private Integer clientType;
+
+    private String clientType;
 
 
-    private Integer documentType;
+    private String documentType;
 
 
     private String documentNumber;
