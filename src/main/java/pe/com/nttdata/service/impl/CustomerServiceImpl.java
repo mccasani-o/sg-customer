@@ -1,6 +1,6 @@
 package pe.com.nttdata.service.impl;
 
-import io.netty.handler.stream.ChunkedNioFile;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -62,9 +62,8 @@ public class CustomerServiceImpl implements CustomerService {
     public Mono<Void> update(String id, CustomerRequest request) {
         return this.getClientTypeAndDocumentType(request)
                 .flatMap(typeResponse ->
-                        this.customerRepository.findById(id)
-                                .switchIfEmpty(Mono.error(new CustomerException(MESSAGE,"400", HttpStatus.BAD_REQUEST)))
-                                .flatMap(c->this.customerRepository.save(this.toCustomerUpdate(request, id,typeResponse)))
+                        this.findById(id)
+                                .flatMap(customerResponse->this.customerRepository.save(this.toCustomerUpdate(request, customerResponse.getId(),typeResponse)))
 
                 ).then();
     }
