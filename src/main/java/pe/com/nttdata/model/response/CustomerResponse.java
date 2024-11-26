@@ -3,8 +3,10 @@ package pe.com.nttdata.model.response;
 
 import lombok.*;
 
-@Setter
-@Getter
+import java.util.List;
+
+@Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,4 +25,6 @@ public class CustomerResponse {
     private String lastName;
 
     private String email;
+
+    private List<ProductResponse> products;
 }

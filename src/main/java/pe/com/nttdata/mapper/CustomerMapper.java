@@ -7,6 +7,9 @@ import org.mapstruct.factory.Mappers;
 import pe.com.nttdata.model.Customer;
 import pe.com.nttdata.model.request.CustomerRequest;
 import pe.com.nttdata.model.response.CustomerResponse;
+import pe.com.nttdata.model.response.ProductResponse;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
@@ -16,6 +19,7 @@ public interface CustomerMapper {
     Customer toCustomer(CustomerRequest customerRequest );
 
     CustomerResponse toCustomerResponse(Customer customer);
+    CustomerResponse toCustomerResponse(Customer customer, List<ProductResponse> productResponses);
 
 
     @Mapping(target = "clientType", source = "codeType")

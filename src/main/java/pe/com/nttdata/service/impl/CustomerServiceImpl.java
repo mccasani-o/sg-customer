@@ -12,10 +12,17 @@ import pe.com.nttdata.model.enums.DocumentType;
 import pe.com.nttdata.model.request.CustomerRequest;
 import pe.com.nttdata.model.response.ClientTypeAndDocumentTypeResponse;
 import pe.com.nttdata.model.response.CustomerResponse;
+import pe.com.nttdata.model.response.ProductResponse;
 import pe.com.nttdata.repository.CustomerRepository;
 import pe.com.nttdata.service.CustomerService;
+import pe.com.nttdata.webclient.ApiClientProduct;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
 
 
 @Slf4j
@@ -24,19 +31,27 @@ public class CustomerServiceImpl implements CustomerService {
 
     public static final String MESSAGE = "El recurso solicitado no se encuentra";
     private final CustomerRepository customerRepository;
+    private final ApiClientProduct clientProduct;
 
     private final CustomerMapper customerMapper;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, ApiClientProduct clientProduct, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
+        this.clientProduct = clientProduct;
         this.customerMapper = customerMapper;
     }
 
     @Override
     public Flux<CustomerResponse> findAll() {
         return this.customerRepository.findAll()
-                .map(this.customerMapper::toCustomerResponse)
-                .switchIfEmpty(Mono.error(new CustomerException("No customers found","204", HttpStatus.NO_CONTENT)));
+                .switchIfEmpty(subscriber -> new CustomerException("Data no encontrado","200", HttpStatus.OK))
+                .doOnNext(customer -> log.info("DATA: {}", customer))
+                .flatMap(customer -> this.clientProduct.findByProductId(customer.getId())
+                        .collectList() // Recolecta todos los productos en una lista
+                        .map(productResponses -> toCustomerResponse(customer, productResponses))
+                        .defaultIfEmpty(toCustomerResponse(customer, Collections.emptyList())) // Maneja clientes sin productos
+                )
+                .doOnError(error -> log.error("Error fetching customers: {}", error.getMessage()));
     }
 
 
@@ -120,6 +135,19 @@ public class CustomerServiceImpl implements CustomerService {
                 .name(customerRequest.getName())
                 .lastName(customerRequest.getLastName())
                 .email(customerRequest.getEmail())
+                .build();
+    }
+
+    private CustomerResponse toCustomerResponse(Customer customer, List<ProductResponse> productResponses) {
+        return CustomerResponse.builder()
+                .id(customer.getId())
+                .clientType(customer.getClientType())
+                .documentType(customer.getDocumentType())
+                .documentNumber(customer.getDocumentNumber())
+                .name(customer.getName())
+                .lastName(customer.getLastName())
+                .email(customer.getEmail())
+                .products(productResponses) // Asigna la lista de productos
                 .build();
     }
 

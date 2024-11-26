@@ -10,7 +10,7 @@ import java.util.Arrays;
 public enum ClientType {
 
     BUSINESS(1,"business"),
-    STAFF(2,"staff");
+    PERSONAL(2,"personal");
 
     int codeType;
     String nameType;
