@@ -92,7 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    private Mono<ClientTypeAndDocumentTypeResponse> getClientTypeAndDocumentType(CustomerRequest customerRequest) {
+    Mono<ClientTypeAndDocumentTypeResponse> getClientTypeAndDocumentType(CustomerRequest customerRequest) {
         return Mono.defer(() -> {
             ClientType clientTypeEnum = ClientType.findCustomerType(customerRequest.getClientType());
             DocumentType documentTypeEnum = DocumentType.findDocumentTypeName(customerRequest.getDocumentType());
