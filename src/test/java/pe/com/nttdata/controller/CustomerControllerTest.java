@@ -35,7 +35,7 @@ class CustomerControllerTest {
     void setUp() {
         client = WebTestClient.bindToController(new CustomerController(customerService)).build();
         customerRequest = CustomerRequest.builder()
-                .clientType("business")
+                .clientType("PERSONAL")
                 .documentType("DNI")
                 .documentNumber("12345678")
                 .name("Juan")
@@ -130,8 +130,8 @@ class CustomerControllerTest {
     private CustomerResponse buildCustomerResponse() {
         return CustomerResponse.builder()
                 .id("437f8666")
-                .clientType(1)
-                .documentType(1)
+                .clientType("PERSONAL")
+                .documentType("DNI")
                 .documentNumber("12345678")
                 .name("Juan")
                 .lastName("Cardenas")

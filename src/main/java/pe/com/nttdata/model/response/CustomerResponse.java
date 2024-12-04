@@ -14,9 +14,9 @@ public class CustomerResponse {
 
     private String id;
 
-    private Integer clientType;
+    private String clientType;
 
-    private Integer documentType;
+    private String documentType;
 
     private String documentNumber;
 

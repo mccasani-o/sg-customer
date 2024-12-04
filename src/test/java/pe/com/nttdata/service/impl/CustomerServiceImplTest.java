@@ -30,7 +30,7 @@ class CustomerServiceImplTest {
     private CustomerMapper customerMapper;
 
     @InjectMocks
-    private CustomerServiceImpl customerService; // Clase que implementa tu servicio
+    private CustomerServiceImpl customerService;
 
     private static final String CUSTOMER_ID = "437f8666";
 
@@ -39,7 +39,7 @@ class CustomerServiceImplTest {
     @BeforeEach
     void setUp() {
         this.customerRequest=CustomerRequest.builder()
-                .clientType("business")
+                .clientType("PERSONAL")
                 .documentType("DNI")
                 .documentNumber("12345678")
                 .name("Juan")
@@ -49,9 +49,10 @@ class CustomerServiceImplTest {
     }
 
 
+
     @Test
-    void create() {
-        when(customerMapper.toCustomerSave(this.customerRequest, 1, 1))
+    void create_new_customer() {
+        when(customerMapper.toCustomerSave(this.customerRequest, "PERSONAL", "DNI"))
                 .thenReturn(this.buildCustomer());
 
         when(customerRepository.save(this.buildCustomer()))
@@ -86,11 +87,8 @@ class CustomerServiceImplTest {
 
 
 
-
-
-
     @Test
-    void update() {
+    void update_by_clientId() {
 
         Mockito.when(this.customerRepository.findById(anyString()))
                 .thenReturn(Mono.just(this.buildCustomer()));
@@ -104,7 +102,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void delete() {
+    void delete_by_customerId() {
 
         Mockito.when(this.customerRepository.findById(anyString()))
                 .thenReturn(Mono.just(this.buildCustomer()));
@@ -124,8 +122,8 @@ class CustomerServiceImplTest {
     private Customer buildCustomer() {
         return Customer.builder()
                 .id(CUSTOMER_ID)
-                .clientType(1)
-                .documentType(1)
+                .clientType("PERSONAL")
+                .documentType("DNI")
                 .documentNumber("12345678")
                 .name("Juan")
                 .lastName("Cardenas")
@@ -137,8 +135,8 @@ class CustomerServiceImplTest {
 
         return CustomerResponse.builder()
                 .id(CUSTOMER_ID)
-                .clientType(1)
-                .documentType(1)
+                .clientType("PERSONAL")
+                .documentType("DNI")
                 .documentNumber("12345678")
                 .name("Juan")
                 .lastName("Cardenas")

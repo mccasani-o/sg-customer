@@ -44,8 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Flux<CustomerResponse> findAll() {
         return this.customerRepository.findAll()
-                .switchIfEmpty(subscriber -> new CustomerException("Data no encontrado","200", HttpStatus.OK))
-                .doOnNext(customer -> log.info("DATA: {}", customer))
+                .doOnNext(customer -> log.info("Response customer: {}", customer))
                 .flatMap(customer -> this.clientProduct.findByProductId(customer.getId())
                         .collectList() // Recolecta todos los productos en una lista
                         .map(productResponses -> toCustomerResponse(customer, productResponses))
@@ -119,8 +118,8 @@ public class CustomerServiceImpl implements CustomerService {
 
             }
             return Mono.just(ClientTypeAndDocumentTypeResponse.builder()
-                    .clientType(clientTypeEnum.getCodeType())
-                    .documentType(documentTypeEnum.getDocumentTypeCode())
+                    .clientType(clientTypeEnum.getNameType())
+                    .documentType(documentTypeEnum.getDocumentTypeName())
                     .build());
         });
     }

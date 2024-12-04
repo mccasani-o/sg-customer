@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,8 @@ public class ProductResponse {
 
     private Integer limitMnthlyMovements;
 
-    private Integer dayMovement;
+    private String dayMovement;
+
+    private BigDecimal limitCredit;
 
 }

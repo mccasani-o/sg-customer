@@ -18,9 +18,9 @@ public class Customer {
     @JsonProperty("id")
     private String id;
 
-    private Integer clientType;
+    private String clientType;
 
-    private Integer documentType;
+    private String documentType;
 
     private String documentNumber;
 

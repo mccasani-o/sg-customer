@@ -18,8 +18,6 @@ public class ApiClientProduct {
     }
 
     public Flux<ProductResponse> findByProductId(String id) {
-
-
         return this.webClient.get()
                 .uri("/customer/{id}", id)
                 .retrieve()
@@ -30,8 +28,9 @@ public class ApiClientProduct {
                         .balance(productResponse.getBalance())
                         .limitMnthlyMovements(productResponse.getLimitMnthlyMovements())
                         .dayMovement(productResponse.getDayMovement())
+                        .limitCredit(productResponse.getLimitCredit())
                         .build())
-                .defaultIfEmpty(ProductResponse.builder().build())
+                //.defaultIfEmpty(ProductResponse.builder().build())
                 .doOnNext(customProduct ->
                         log.info("Custom Product Response: {}", customProduct)
                 )

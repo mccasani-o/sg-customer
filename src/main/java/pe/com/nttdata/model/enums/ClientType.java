@@ -9,8 +9,8 @@ import java.util.Arrays;
 @Getter
 public enum ClientType {
 
-    BUSINESS(1,"business"),
-    PERSONAL(2,"personal");
+    BUSINESS(1,"BUSINESS"),
+    PERSONAL(2,"PERSONAL");
 
     int codeType;
     String nameType;

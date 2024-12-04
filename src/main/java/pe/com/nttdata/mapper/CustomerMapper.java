@@ -16,15 +16,13 @@ public interface CustomerMapper {
 
     CustomerMapper INSTANCE = Mappers.getMapper( CustomerMapper.class );
 
-    Customer toCustomer(CustomerRequest customerRequest );
 
     CustomerResponse toCustomerResponse(Customer customer);
-    CustomerResponse toCustomerResponse(Customer customer, List<ProductResponse> productResponses);
 
 
     @Mapping(target = "clientType", source = "codeType")
     @Mapping(target = "documentType", source = "documentTypeCode")
-    Customer toCustomerSave(CustomerRequest customerRequest, int codeType, int documentTypeCode);
+    Customer toCustomerSave(CustomerRequest customerRequest, String codeType, String documentTypeCode);
 
 
 }

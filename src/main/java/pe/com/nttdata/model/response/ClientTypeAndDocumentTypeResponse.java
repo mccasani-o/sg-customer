@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class ClientTypeAndDocumentTypeResponse {
-    private int clientType;
-    private int documentType;
+    private String clientType;
+    private String documentType;
 
 
 
