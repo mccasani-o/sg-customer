@@ -2,6 +2,7 @@ package pe.com.nttdata.service.impl;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pe.com.nttdata.exception.CustomerException;
@@ -64,9 +65,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
-
+    @Cacheable(value = "getClient", key="#id")
     @Override
     public Mono<CustomerResponse> findById(String id) {
+        log.info("Se valida Cacheable en Redis: {}", id);
         return this.customerRepository.findById(id)
                 .map(this.customerMapper::toCustomerResponse)
                 .switchIfEmpty(Mono.error(new CustomerException(MESSAGE, "400", HttpStatus.BAD_REQUEST)));

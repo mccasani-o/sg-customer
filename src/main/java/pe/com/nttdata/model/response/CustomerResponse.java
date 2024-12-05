@@ -3,6 +3,7 @@ package pe.com.nttdata.model.response;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -10,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerResponse {
+public class CustomerResponse implements Serializable {
 
     private String id;
 
